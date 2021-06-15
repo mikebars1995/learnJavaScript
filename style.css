@@ -1,0 +1,41 @@
+body{
+    background-color: aqua;
+}
+.myInput{
+    vertical-align: -122px;
+    align-items: stretch;
+    border: burlywood 1px solid;
+    height: 100px;
+    width: 120px;
+    font-size: 20px;
+
+}
+
+#myId {
+    height: 100px;
+    width: 120px;
+}
+
+div .myInput {
+    vertical-align: -200px;
+    width: 250px ;
+    height: 250px;
+    background-color: rgb(103, 150, 238);
+    border: crimson 3px solid;  
+    font: optional;
+    font-style: italic;
+    font-weight: 600;
+    font-variant: small-caps;
+    font-feature-settings: "cpsp";
+    /* text-align: start; */
+    cursor: grab;
+}
+.myButton{
+    vertical-align: -122px;
+    width: 100px;
+    height: 100px;
+}
+#firstP{
+    font-size: 50px;
+
+}
