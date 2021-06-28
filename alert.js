@@ -4,5 +4,3 @@
 //     alert(`Внешний скрипт ${message}`);
 //     alert(isGreater);
 
-
-let res

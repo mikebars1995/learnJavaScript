@@ -32,3 +32,20 @@ function f(a, b) {
     console.log(a + b)
 }
 f.defer(1000)(3, 7)
+
+let dictionary = Object.create(null, {
+    toString: {
+        value() {
+            return Object.keys(this).join()
+        }
+    }
+})
+
+dictionary.apple = 'Apple'
+dictionary.__proto__ = 'Test'
+
+for (let key in dictionary) {
+    console.log(key)
+}
+
+alert(dictionary)
