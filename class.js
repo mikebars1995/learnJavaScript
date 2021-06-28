@@ -39,3 +39,16 @@ class Clock {
 let clock = new Clock({ template: 'h:m:s:ms' })
 clock.start()
 clock.stop()
+
+class Rabbit {
+    constructor(name) {
+        // super()
+        this.name = name;
+    }
+    static __proto__ = Object.prototype
+}
+
+let rabbit = new Rabbit("Кроль");
+
+console.log(rabbit.hasOwnProperty('name')); // Ошибка
+console.log(Rabbit.prototype.__proto__)
