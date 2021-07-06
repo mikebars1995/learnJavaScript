@@ -106,3 +106,38 @@ class FormatError extends SyntaxError {
         this.name = 'FormatError';
     }
 }
+
+
+
+window.addEventListener('unhandledrejection', function(event) {
+    // объект события имеет два специальных свойства:
+    alert(event.promise); // [object Promise] - промис, который сгенерировал ошибку
+    alert(event.reason); // Error: Ошибка! - объект ошибки, которая не была обработана
+  });
+
+
+  
+
+  // the execution: catch -> catch -> then
+new Promise((resolve, reject) => {
+
+    throw new Error("Ошибка!");
+  
+  }).catch(function(error) { // (*)
+  
+    if (error instanceof URIError) {
+      // обрабатываем ошибку
+    } else {
+      alert("Не могу обработать ошибку");
+  
+      throw error; // пробрасывает эту или другую ошибку в следующий catch
+    }
+  
+  }).then(function() {
+    /* не выполнится */
+  }).catch(error => { // (**)
+  
+    alert(`Неизвестная ошибка: ${error}`);
+    // ничего не возвращаем => выполнение продолжается в нормальном режиме
+  
+  });
