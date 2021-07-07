@@ -11,29 +11,29 @@
 //   }
 
 function loadScript(src) {
-    return new Promise(function (resolve, reject) {
-        let script = document.createElement('script');
-        script.src = src;
+  return new Promise(function (resolve, reject) {
+    let script = document.createElement('script');
+    script.src = src;
 
-        script.onload = () => resolve(script);
-        script.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${src}`));
+    script.onload = () => resolve(script);
+    script.onerror = () => reject(new Error(`Ошибка загрузки скрипта ${src}`));
 
-        document.head.append(script);
-    });
+    document.head.append(script);
+  });
 }
 let promise = loadScript("https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.js");
 
 promise.then(
-    script => alert(`${script.src} загружен!`),
-    error => alert(`Ошибка: ${error.message}`)
+  script => alert(`${script.src} загружен!`),
+  error => alert(`Ошибка: ${error.message}`)
 );
 
 promise.then(script => alert('Ещё один обработчик...'));
 
 function delay(ms) {
-    return new Promise(function (resolve, reject) {
-        setTimeout(() => resolve('Done'), ms)
-    })
+  return new Promise(function (resolve, reject) {
+    setTimeout(() => resolve('Done'), ms)
+  })
 }
 delay(3000).then(() => alert('выполнилось через 3 секунды'));
 
@@ -82,58 +82,58 @@ delay(3000).then(() => alert('выполнилось через 3 секунды
 //     // запрашиваем JSON с данными пользователя
 //     let response = await fetch('/article/promise-chaining/user.json');
 //     let user = await response.json();
-  
+
 //     // запрашиваем информацию об этом пользователе из github
 //     let githubResponse = await fetch(`https://api.github.com/users/${user.name}`);
 //     let githubUser = await githubResponse.json();
-  
+
 //     // отображаем аватар пользователя
 //     let img = document.createElement('img');
 //     img.src = githubUser.avatar_url;
 //     img.className = "promise-avatar-example";
 //     document.body.append(img);
-  
+
 //     // ждём 3 секунды и затем скрываем аватар
 //     await new Promise((resolve, reject) => setTimeout(resolve, 3000));
-  
+
 //     img.remove();
-  
+
 //     return githubUser;
 //   }
-  
+
 //   showAvatar();
 
 function loadJson(url) {
-    return fetch(url)
-        .then(response => response.json());
+  return fetch(url)
+    .then(response => response.json());
 }
 
 function loadGithubUser(login) {
-    return fetch(`https://api.github.com/users/${login}`)
-        .then(response => response.json());
+  return fetch(`https://api.github.com/users/${login}`)
+    .then(response => response.json());
 }
 
 function showAvatar(githubUser) {
-    return new Promise(function (resolve, reject) {
-        console.log(githubUser)
-        let img = document.createElement('img');
-        img.src = githubUser.avatar_url;
-        img.className = "promise-avatar-example";
-        document.body.append(img);
+  return new Promise(function (resolve, reject) {
+    console.log(githubUser)
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = "promise-avatar-example";
+    document.body.append(img);
 
-        setTimeout(() => {
-            img.remove();
-            resolve(githubUser);
-        }, 3000);
-    });
+    setTimeout(() => {
+      img.remove();
+      resolve(githubUser);
+    }, 3000);
+  });
 }
 
 // Используем их:
 //   loadJson('/article/promise-chaining/user.json').then(user => 
 loadGithubUser('mikebars1995')
-    .then(showAvatar)
-    .then(githubUser => alert(`Показ аватара ${githubUser.name} завершён`));
-        // ...
+  .then(showAvatar)
+  .then(githubUser => alert(`Показ аватара ${githubUser.name} завершён`));
+// ...
 
 
 
@@ -142,14 +142,14 @@ loadGithubUser('mikebars1995')
 
 
 
-        let names = ['iliakan', 'remy', 'jeresig'];
+let names = ['iliakan', 'remy', 'jeresig'];
 
 let requests = names.map(name => fetch(`https://api.github.com/users/${name}`));
 
 Promise.all(requests)
   .then(responses => {
     // все промисы успешно завершены
-    for(let response of responses) {
+    for (let response of responses) {
       alert(`${response.url}: ${response.status}`); // покажет 200 для каждой ссылки
     }
 
@@ -164,25 +164,25 @@ Promise.all(requests)
 
 
 //Функция для промисификации
-  function promisify(f, manyArgs = false) {
-    return function (...args) {
-      return new Promise((resolve, reject) => {
-        function callback(err, ...results) { // наш специальный колбэк для f
-          if (err) {
-            return reject(err);
-          } else {
-            // делаем resolve для всех results колбэка, если задано manyArgs
-            resolve(manyArgs ? results : results[0]);
-          }
+function promisify(f, manyArgs = false) {
+  return function (...args) {
+    return new Promise((resolve, reject) => {
+      function callback(err, ...results) { // наш специальный колбэк для f
+        if (err) {
+          return reject(err);
+        } else {
+          // делаем resolve для всех results колбэка, если задано manyArgs
+          resolve(manyArgs ? results : results[0]);
         }
-  
-        args.push(callback);
-  
-        f.call(this, ...args);
-      });
-    };
+      }
+
+      args.push(callback);
+
+      f.call(this, ...args);
+    });
   };
-  
+};
+
   // использование:
 //   f = promisify(f, true);
 //   f(...).then(arrayOfResults => ..., err => ...)

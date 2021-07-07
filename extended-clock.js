@@ -9,5 +9,5 @@ class ExtendedClock extends Clock {
         this.timer = setInterval(() => this.render(), this.precision);
     }
 }
-let exclock = new ExtendedClock({ template: 'h:m:s:ms' })
+  let exclock = new ExtendedClock({ template: 'h:m:s:ms' })
 // exclock.start()

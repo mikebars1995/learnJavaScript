@@ -20,19 +20,26 @@
         <input class="myInput" type="text">
 
     </div>
-    <p id="firstP" class="firstP"> 3332 </p>
+    <!-- <p id="firstP" class="firstP"> 3332 </p> -->
     <!-- <script src="dateType.js"></script> -->
     <!-- <script src="typeJSON.js"></script> -->
     <!-- <script src="recursion.js"></script> -->
-    <script src="pseudoRandomGen.js"></script>
-    <script src="fetchCommits.js"></script>
+    <!-- <script src="pseudoRandomGen.js"></script> -->
+    <!-- <script src="fetchCommits.js"></script> -->
     <!-- <script src="closure.js"></script> -->
     <!-- <script src="NFE.js"></script> -->
     <!-- <script src="Timers.js"></script> -->
     <!-- <script src="cachingDecorator.js"></script> -->
     <!-- <script src="prototype.js"></script> -->
-    <!-- <script src="class.js"></script> -->
-    <!-- <script src="extended-clock.js"></script> -->
+    <script src="class.js"></script>
+    <script src="proxy.js"></script>
+    <script src="showAvatar.js"></script>
+    <button onclick="clock.start()">Запустить часы</button>
+    <button onclick="clock.stop()">Остановить часы</button>
+    <button onclick="loadGithubUser('mikebars1995')
+    .then(showAvatar)
+    .then(githubUser => console.log(`Показ аватара ${githubUser.login} завершён`))">Показать аватар</button>
+    <script type="module" src="extended-clock.js"></script>
     <!-- <script src="promise.js"></script> -->
     <!-- <script src="arrayType.js"></script> -->
     <!-- <script src="numType.js"></script> -->

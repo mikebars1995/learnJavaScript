@@ -24,7 +24,9 @@ class Clock {
             .replace('m', mins)
             .replace('s', secs)
             .replace('ms', ms)
-        console.log(output)
+        // console.log(output)
+        document.body.innerHTML = output
+        
     }
     stop() {
         clearInterval(this.timer)
@@ -32,13 +34,14 @@ class Clock {
     start() {
         this.render()
         this.timer = setInterval(() => this.render(), 1000)
+        // document.body.append(output)
     }
 }
 
 
-let clock = new Clock({ template: 'h:m:s:ms' })
-clock.start()
-clock.stop()
+let clock = new Clock({ template: 'h:m:s' })
+// clock.start()
+// clock.stop()
 
 class Rabbit {
     constructor(name) {
@@ -50,5 +53,6 @@ class Rabbit {
 
 let rabbit = new Rabbit("Кроль");
 
-console.log(rabbit.hasOwnProperty('name')); // Ошибка
-console.log(Rabbit.prototype.__proto__)
+// console.log(rabbit.hasOwnProperty('name')); 
+// console.log(Rabbit.prototype.__proto__)
+
