@@ -206,3 +206,78 @@ let admin = {
 };
 
 console.log(admin.name); // Админ
+
+
+let map = new Map();
+
+// let proxy = new Proxy(map, {
+//     get(target, prop, receiver) {
+//         let value = Reflect.get(...arguments);
+//         return typeof value == 'function' ? value.bind(target) : value;
+//     }
+// });
+
+// proxy.set('test', 1);
+// console.log(proxy.get('test')); // 1 (работает!)
+
+function wrap(target) {
+    return new Proxy(target, {
+        get(target, prop, reciever) {
+            if (prop in target) {
+                return Reflect.get(target, prop, reciever)
+            } else {
+                throw new ReferenceError(`Свойство не найдено ${prop}`)
+            }
+        }
+    })
+}
+
+user = wrap(user)
+
+console.log(user.name)
+try { console.log(user.notFoundProp) }
+catch (e) { console.log(e.message) }
+
+let array = [1, 2, 3]
+
+array = new Proxy(array, {
+    get(target, prop, reciever) {
+        if (prop < 0) {
+            prop = +prop + target.length
+        }
+        return Reflect.get(target, prop, reciever)
+    }
+})
+
+console.log(array[-1])
+console.log(array[-2])
+
+
+let handlers = Symbol('handlers')
+
+function makeObservable(target) {
+    target[handlers] = []
+    target.observe = function (handler) {
+        this[handlers].push(handler)
+    }
+
+    return new Proxy(target, {
+        set(target, property, value, reciever) {
+            let success = Reflect.set(...arguments)
+            if (success) {
+                target[handlers].forEach(handler => handler(property, value))
+            }
+            // return succces
+        }
+    })
+}
+
+let people = {}
+
+people = makeObservable(people)
+people.observe((key, value) => {
+    console.log(`SET ${key} = ${value}`)
+})
+
+people.name = 'John'
+document.body.style.background = ''

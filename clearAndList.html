@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <ol id="elem">
+        <li>Привет</li>
+        <li>Мир</li>
+    </ol>
+
+    <script>
+        function clear(elem) {
+            setTimeout(() => elem.innerHTML = '', 1000)
+        }
+
+        clear(elem); // очищает список
+
+        let ul = document.createElement('ul')
+        document.body.append(ul)
+        while (true) {
+            let listElem = prompt('Добавьте эелемент списка...', '')
+            if (!listElem) break
+            list = document.createElement('li')
+            list.textContent = listElem
+            ul.append(list)
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        .alert {
+            padding: 15px;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            color: #3c763d;
+            background-color: #dff0d8;
+        }
+    </style>
+
+    <script>
+
+        let div = document.createElement('div')
+        div.className = "alert"
+        div.innerHTML = "<strong>Всем привет!</strong> Вы прочитали важное сообщение"
+        document.body.append(div)
+        let div2 = div.cloneNode(true)
+        div2.querySelector('strong').innerHTML = 'Всем пока!'
+        // document.body.insertAdjacentHTML("afterbegin", `<div id ="div" class="alert">
+        //     <strong>Всем привет!</strong> Вы прочитали важное сообщение.
+        //   </div>`);
+        setTimeout(() => {
+             div.remove(); 
+             document.body.append('Сообщение удалено через 3 сек'); 
+             document.body.append(div2) }, 3000)
+
+    </script>
+</body>
+
+</html>
