@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        #arrowTop {
+            height: 9px;
+            width: 14px;
+            color: green;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+        }
+
+        #arrowTop::before {
+            content: '▲';
+        }
+    </style>
+</head>
+
+<body>
+    <div id="arrowTop"></div>
+
+
+    <h1>Прокрути меня</h1>
+
+    <script>
+        arrowTop.onclick = function () {
+            window.scrollTo(pageXOffset, 0);
+        };
+
+        window.addEventListener('scroll', function () {
+            console.log(`${pageYOffset} + ${document.documentElement.clientHeight}`)
+            arrowTop.hidden = pageYOffset < document.documentElement.clientHeight;
+        });
+
+        function populate() {
+            while (true) {
+                let windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
+                if (windowRelativeBottom > document.documentElement.clientHeight + 100) break;
+                document.body.insertAdjacentHTML("beforeend", `<p>Date: ${new Date()}</p>`);
+            }
+        }
+
+        window.addEventListener('scroll', populate);
+
+        populate(); // инициализация документа
+    </script>
+
+</body>
+
+</html>

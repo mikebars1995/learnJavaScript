@@ -3,10 +3,11 @@
 // control.style.top = field.clientTop +'px'
 
 function moveCenter() {
+    fieldCoords = field.getBoundingClientRect()
     ball.style.left =
-        Math.round(field.clientWidth / 2 - ball.clientWidth / 2) + 'px';
+        Math.round(fieldCoords.left + (field.clientWidth / 2) - (ball.clientWidth / 2)) + 'px';
     ball.style.top =
-        Math.round(field.clientHeight / 2 - ball.clientHeight / 2) + 'px';
+        Math.round(fieldCoords.top + (field.clientHeight / 2) - (ball.clientHeight / 2)) + 'px';
     showNotification({
         top: (field.clientHeight),
         right: (field.clientWidth),
@@ -63,20 +64,23 @@ center.style.top = fieldCoords.top + 'px'
 center.style.left = fieldCoords.left + 'px'
 
 
-field.onclick = function(event) {
+let currentDroppable = null;
 
-    // координаты поля относительно окна браузера
-    let fieldCoords = this.getBoundingClientRect();
+ball.onmousedown = function (event) {
 
-    // мяч имеет абсолютное позиционирование (position:absolute), поле - относительное (position:relative)
-    // таким образом, координаты мяча рассчитываются относительно внутреннего, верхнего левого угла поля
+    let shiftX = event.clientX - ball.getBoundingClientRect().left;
+    let shiftY = event.clientY - ball.getBoundingClientRect().top;
+
+    ball.style.position = 'absolute';
+    ball.style.zIndex = 1000;
+    document.body.append(ball);
+
     let ballCoords = {
-      top: event.clientY - fieldCoords.top - field.clientTop - ball.clientHeight / 2,
-      left: event.clientX - fieldCoords.left - field.clientLeft - ball.clientWidth / 2
-    };
-
+        top: event.clientY - fieldCoords.top - field.clientTop - ball.clientHeight / 2,
+        left: event.clientX - fieldCoords.left - field.clientLeft - ball.clientWidth / 2
+    }
     // запрещаем пересекать верхнюю границу поля
-    if (ballCoords.top < 0) ballCoords.top = 0;
+    if (ballCoords.top < fieldCoords.top) ballCoords.top = fieldCoords.top;
 
     // запрещаем пересекать левую границу поля
     if (ballCoords.left < 0) ballCoords.left = 0;
@@ -84,12 +88,91 @@ field.onclick = function(event) {
 
     // // запрещаем пересекать правую границу поля
     if (ballCoords.left + ball.clientWidth > field.clientWidth) {
-      ballCoords.left = field.clientWidth - ball.clientWidth;
+        ballCoords.left = field.clientWidth - ball.clientWidth;
     }
 
     // запрещаем пересекать нижнюю границу поля
     if (ballCoords.top + ball.clientHeight > field.clientHeight) {
-      ballCoords.top = field.clientHeight - ball.clientHeight;
+        ballCoords.top = field.clientHeight - ball.clientHeight;
+    }
+
+    moveAt(event.pageX, event.pageY);
+
+    function moveAt(pageX, pageY) {
+        ball.style.left = pageX - shiftX + 'px';
+        ball.style.top = pageY - shiftY + 'px';
+    }
+
+    function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+
+        ball.hidden = true;
+        let elemBelow = document.elementFromPoint(event.clientX, event.clientY);
+        ball.hidden = false;
+
+        if (!elemBelow) return;
+
+        let droppableBelow = elemBelow.closest('.droppable');
+        if (currentDroppable != droppableBelow) {
+            if (currentDroppable) { // null если мы были не над droppable до этого события
+                // (например, над пустым пространством)
+                leaveDroppable(currentDroppable);
+            }
+            currentDroppable = droppableBelow;
+            if (currentDroppable) { // null если мы не над droppable сейчас, во время этого события
+                // (например, только что покинули droppable)
+                enterDroppable(currentDroppable);
+            }
+        }
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+
+    ball.onmouseup = function () {
+        document.removeEventListener('mousemove', onMouseMove);
+        ball.onmouseup = null;
+    };
+
+};
+
+function enterDroppable(elem) {
+    elem.style.background = 'pink';
+}
+
+function leaveDroppable(elem) {
+    elem.style.background = '';
+}
+
+ball.ondragstart = function () {
+    return false;
+};
+field.onclick = function (event) {
+
+    // координаты поля относительно окна браузера
+    let fieldCoords = this.getBoundingClientRect();
+
+    // мяч имеет абсолютное позиционирование (position:absolute), поле - относительное (position:relative)
+    // таким образом, координаты мяча рассчитываются относительно внутреннего, верхнего левого угла поля
+    let ballCoords = {
+        top: event.clientY - fieldCoords.top - field.clientTop - ball.clientHeight / 2,
+        left: event.clientX - fieldCoords.left - field.clientLeft - ball.clientWidth / 2
+    };
+
+    // запрещаем пересекать верхнюю границу поля
+    if (ballCoords.top < fieldCoords.top) ballCoords.top = fieldCoords.top;
+
+    // запрещаем пересекать левую границу поля
+    if (ballCoords.left < 0) ballCoords.left = 0;
+
+
+    // // запрещаем пересекать правую границу поля
+    if (ballCoords.left + ball.clientWidth > field.clientWidth) {
+        ballCoords.left = field.clientWidth - ball.clientWidth;
+    }
+
+    // запрещаем пересекать нижнюю границу поля
+    if (ballCoords.top + ball.clientHeight > field.clientHeight) {
+        ballCoords.top = field.clientHeight - ball.clientHeight;
     }
 
     ball.style.left = ballCoords.left + 'px';

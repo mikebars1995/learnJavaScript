@@ -31,13 +31,14 @@
   <button data-tooltip="эта подсказка должна быть длиннее, чем элемент">Короткая кнопка</button>
   <button data-tooltip="HTML<br>подсказка">Ещё кнопка</button>
 
-  <p>Прокрутите страницу, чтобы кнопки оказались у верхнего края, а затем проверьте, правильно ли выводятся подсказки.</p>
+  <p>Прокрутите страницу, чтобы кнопки оказались у верхнего края, а затем проверьте, правильно ли выводятся подсказки.
+  </p>
 
 
   <script>
     let tooltipElem;
 
-    document.onmouseover = function(event) {
+    document.onmouseover = function (event) {
       let target = event.target;
 
       // если у нас есть подсказка...
@@ -66,7 +67,7 @@
       tooltipElem.style.top = top + 'px';
     };
 
-    document.onmouseout = function(e) {
+    document.onmouseout = function (e) {
 
       if (tooltipElem) {
         tooltipElem.remove();
@@ -77,4 +78,5 @@
   </script>
 
 </body>
+
 </html>
