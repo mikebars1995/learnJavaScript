@@ -1,0 +1,43 @@
+#div {
+    border: 1px solid blue;
+    height: min-content;
+    width: min-content;
+    top: 50px;
+    position: absolute;
+    font-style: italic;
+}
+#div2{
+    border: 1px solid red;
+    height: min-content;
+    width: min-content;
+    top: 110px;
+    position: relative;
+
+    
+
+}
+#div3{
+    border: 1px solid red;
+    height: min-content;
+    width: min-content;
+    top: 120px;
+    position: relative;
+
+}
+#input{
+    border: 1px solid blue;
+    height: min-content;
+    width: min-content;
+    font-style: italic;
+}
+
+#input2{
+    border: 2px solid red;
+    position: relative;
+    top: 100px;
+    left: -220px;
+}
+
+#decodeButton{
+    position: relative;
+}

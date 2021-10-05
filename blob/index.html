@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta labore incidunt commodi, dolore mollitia minus
+    quaerat ullam est ut. Esse nobis voluptates dolores iusto neque dolor tenetur consequuntur, doloremque ipsum.
+    <img id="img" src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Schlegel_wireframe_8-cell.png">
+    <input type="button" value="Убрать/показать картинку">
+    <img
+        src="data:image/png;base64,R0lGODlhDAAMAKIFAF5LAP/zxAAAANyuAP/gaP///wAAAAAAACH5BAEAAAUALAAAAAAMAAwAAAMlWLPcGjDKFYi9lxKBOaGcF35DhWHamZUW0K4mAbiwWtuf0uxFAgA7">
+    <input type="file" id="file" onchange="readFile(this)">
+    <script>
+        let img = document.querySelector('img')
+
+        let canvas = document.createElement('canvas')
+        canvas.width = img.clientWidth
+        canvas.height = img.clientHeight
+
+        let context = canvas.getContext('2d')
+
+        context.drawImage(img, 0, 0)
+        // context.rotate(2)
+
+        canvas.toBlob(function (blob) {
+            let link = document.createElement('a')
+            link.textContent = 'Download image'
+            link.download = 'tessarakt.png'
+            document.body.append(link)
+
+            link.href = URL.createObjectURL(new Blob([blob], { type: "image/png" }))
+            // link.click()
+
+            // URL.revokeObjectURL(link.href)
+        }, 'image/png')
+
+        let input = document.querySelector('input')
+        input.onclick = function (e) {
+            if (img.hidden == true) {
+                img.hidden = false
+            } else img.hidden = true
+        }
+
+        let txtLink = document.createElement('a')
+        txtLink.download = 'tessarakt.txt'
+        txtLink.textContent = 'Download txt'
+        document.body.append(txtLink)
+
+        let blob = new Blob(['    Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta labore incidunt commodi, dolore mollitia minus quaerat ullam est ut. Esse nobis voluptates dolores iusto neque dolor tenetur consequuntur, doloremque ipsum.'],
+            { type: "text/plain" })
+
+        txtLink.href = URL.createObjectURL(blob)
+
+        function readFile(input) {
+            let file = input.files[0]
+
+            let reader = new FileReader()
+            reader.readAsText(file)
+            reader.onload = function () {
+                console.log(file.name)
+                console.log(reader.result)
+            }
+            reader.onerror = function () {
+                console.log(reader.error)
+            }
+        }
+    </script>
+</body>
+
+</html>

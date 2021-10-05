@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <input type="text" id="input" value="hello"> Encode</input>
+    <div id="div"></div>
+
+    <input type="text" id="input2" value=""></input>
+    <input type="button" id="decodeButton" value="Decode">
+    <div id="div2"></div>
+    <div id="div3"></div>
+    <script>
+        let input2Coords = input2.getBoundingClientRect()
+        let encode = new TextEncoder()
+        let uint8Array = []
+        decodeButton.style.top = input2Coords.top - 8 + 'px'
+        decodeButton.style.left = input2Coords.left - 220 + 'px'
+        input.addEventListener('keydown', function (e) {
+            let str = input.value
+            if (event.code == 'Enter') {
+                console.log(str)
+                uint8Array = encode.encode(str)
+                console.log(uint8Array)
+                div.textContent = uint8Array
+            }
+        })
+        let decoder = new TextDecoder()
+        let arr = []
+        input2.addEventListener('keydown', function (e) {
+            if (event.code == 'Enter') {
+                enterArr()
+            }
+        })
+        function enterArr() {
+            arr.push(input2.value)
+            console.log(arr)
+            div2.textContent = arr
+        }
+        decodeButton.onclick = function (e) {
+            let typedArr = new Uint8Array(arr)
+            div3.textContent = decoder.decode(typedArr)
+            arr = []
+        }
+    </script>
+</body>
+
+</html>
