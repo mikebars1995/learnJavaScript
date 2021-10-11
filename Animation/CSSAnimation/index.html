@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        img {
+            cursor: pointer;
+        }
+    </style>
+    <style>
+        #flyjet {
+            width: 40px;
+            /* -> 400px */
+
+            height: 24px;
+            /* -> 240px */
+
+            transition-property: opacity, width, height;
+            transition-duration: 3s;
+            transition-timing-function: cubic-bezier(.5, 1, .5, 2);
+
+        }
+
+        #flyjet.growing {
+            width: 400px;
+            height: 240px;
+        }
+
+        .circle {
+            transition-property: width, height, margin-left, margin-top;
+            transition-duration: 2s;
+            position: fixed;
+            transform: translateX(-50%) translateY(-50%);
+            background-color: red;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <img id="flyjet" src="https://en.js.cx/clipart/flyjet.jpg">
+
+
+    <button onclick="showCircle(400, 400, 100)">showCircle(150, 150, 100)</button>
+    <script>
+
+        // let count = 0
+        flyjet.onclick = function () {
+            // if (count == 0) {
+            //     flyjet.style.width = flyjet.width * 10 + 'px'
+            //     flyjet.style.height = flyjet.height * 10 + 'px'
+            //     count++
+            // } else {
+            //     return
+            // }
+
+            let ended = false
+            flyjet.addEventListener('transitionend', function () {
+                if (!ended) {
+                    ended = true
+                    alert('Animation done.')
+                }
+            })
+            flyjet.classList.add('growing')
+        }
+
+
+        function showCircle(cx, cy, radius) {
+            let div = document.createElement('div');
+            div.style.width = 0;
+            div.style.height = 0;
+            div.style.left = cx + 'px';
+            div.style.top = cy + 'px';
+            div.className = 'circle';
+            document.body.append(div);
+
+            setTimeout(() => {
+                div.style.width = radius * 2 + 'px';
+                div.style.height = radius * 2 + 'px';
+            }, 2000);
+        }
+    </script>
+
+</body>
+
+</html>
