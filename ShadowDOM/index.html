@@ -1,0 +1,56 @@
+<!doctype html>
+<template id="tmpl">
+    <style>
+        ul {
+            margin: 0;
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        ::slotted([slot="title"]) {
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        ::slotted([slot="title"])::before {
+            content: '📂';
+            font-size: 14px;
+        }
+
+        .closed ::slotted([slot="title"])::before {
+            content: '📁';
+        }
+
+        .closed ul {
+            display: none;
+        }
+    </style>
+
+    <div class="menu">
+        <slot name="title"></slot>
+        <ul>
+            <slot name="item"></slot>
+        </ul>
+    </div>
+</template>
+
+<script>
+    customElements.define('custom-menu', class extends HTMLElement {
+        connectedCallback() {
+            this.attachShadow({ mode: 'open' });
+            this.shadowRoot.append(tmpl.content.cloneNode(true));
+
+            this.shadowRoot.querySelector('slot[name="title"]').onclick = () => {
+                this.shadowRoot.querySelector('.menu').classList.toggle('closed');
+            };
+        }
+    });
+</script>
+
+<custom-menu>
+    <span slot="title">Сладости</span>
+    <li slot="item">Леденцы</li>
+    <li slot="item">Фруктовые тосты</li>
+    <li slot="item">Кексы</li>
+</custom-menu>
